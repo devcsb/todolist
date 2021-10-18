@@ -17,11 +17,8 @@ class User extends Authenticatable
      *
      * @var string[]
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    // 모든 속성들이 대량 할당이 가능하게 하고자 하려면 $guarded 프로퍼티를 빈 배열로 정의
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
