@@ -15,7 +15,7 @@ class CreateProjectTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unsigned();
+//            $table->integer('user_id')->unsigned();
 //            $table->foreign('user_id')->references('id')->on('users'); //아래 코드와 같음
             $table->foreignId('user_id')->constrained();
             $table->string('name', 20);
