@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\TaskController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,13 +16,18 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/',[\App\Http\Controllers\WelcomController::class, 'index']);
 
 //Auth::routes();
 
 
-
-Route::group(['middleware' => 'web'], function () { //3
     Route::auth();
+    Route::get('/',[\App\Http\Controllers\WelcomController::class, 'index']);
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-});
+
+
+    Route::group(['middleware'=>'auth'],function(){
+    Route::resource('projects', ProjectController::class);
+    Route::resource('projects.tasks', TaskController::class);
+
+    });
+

@@ -22,6 +22,7 @@ class CreateProjectTable extends Migration
             $table->text('description')->nullable();
             $table->boolean('public')->default(false);
             $table->timestamps();
+
         });
     }
 

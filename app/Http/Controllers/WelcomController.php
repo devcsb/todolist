@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -16,16 +19,15 @@ class WelcomController extends Controller
         $this->middleware('web');
     }
 
-    public function index()  //2
+    public function index()
     {
-        // 3 사용자, 프로젝트, 태스트 수 가져오기. 아직 모델을 생성하지 않았으므로 0 으로 설정
-        $uc = 0; //User::count();
-        $pc = 0; //Project::count();
-        $tc = 0; //Task::count();
+        $userCount = User::count();	// 1
+        $projectCount= Project::count();	//2
+        $taskCount= Task::count();	//3
 
-        $total = ['user' => $uc,
-            'project' => $pc,
-            'task' => $tc,
+        $total = [ 'user' => $userCount,
+            'project' => $projectCount,
+            'task' => $taskCount,
         ];
         return view('welcome')->with('total', $total);
     }
