@@ -56,8 +56,8 @@
                             </li>
                         @endif
                     @else
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/task') }}">내 태스크</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/project') }}">내 프로젝트</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('projects.index') }}">내 프로젝트</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/task') }}">내 테스크</a></li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
