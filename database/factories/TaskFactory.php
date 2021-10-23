@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Task;
 use App\Models\Project;
-
+use App\Models\Task;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaskFactory extends Factory
@@ -31,7 +30,7 @@ class TaskFactory extends Factory
             'project_id' => $this->faker->numberBetween($min, $max),
             'name' => substr($this->faker->sentence, 0, 20),
             'description' => $this->faker->text,
-            'due_date' => $this->faker->dateTimeBetween($startDate = '-1 months', $endDate = '+1 months'),	// 8
+            'due_date' => $this->faker->dateTimeBetween($startDate = '-1 months', $endDate = '+1 months'),
             'created_at' => $date,
             'updated_at' => $date,
         ];

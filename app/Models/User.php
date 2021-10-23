@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -38,4 +37,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //일대다 관계 설정
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasManyThrough(Task::class, Project::class); //첫 파라미터: 접속할 최종 모델 , 둘째 파라미터 : 거쳐갈 중간 모델
+    }
 }

@@ -7,9 +7,9 @@
 @section('content')
 
     <div class="col-md-12">
-        <h3>{{ $project->name }}</h3>
+        <h3>프로젝트 명: {{ $project->name }}</h3>
         <p>
-            <a href="{{ route('projects.taskss.create', [$project->id]) }}" class="btn btn-success">tasks 생성</a> //1
+            <a href="{{ route('projects.tasks.create', [$project->id]) }}" class="btn btn-success">tasks 생성</a>
         </p>
 
         @if(Session::has('message'))
@@ -31,7 +31,7 @@
             @foreach ($tasks as $task)
                 <tr>
                     <td>
-                        <a href="{{route('projects.tasks.show', [$project->id, $tasks->id])}}">{{ $tasks->name }}</a>
+                        <a href="{{route('projects.tasks.show', [$project->id, $task->id])}}">{{ $task->name }}</a>
                     </td>
                     <td>
                         {{ $task->priority }}
@@ -44,13 +44,12 @@
                     </td>
                     <td>
                         <a class="btn btn-success"
-                           href="{{ route('projects.tasks.edit', [$project->id, $task->id]) }}">편집</a> //3
+                           href="{{ route('projects.tasks.edit', [$project->id, $task->id]) }}">편집</a>
                     </td>
                     <td>
                         <form method="POST" action="{{ route('projects.tasks.destroy', [$project->id, $task->id]) }}">
-                            //4
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
+                            @csrf
+                            @method('DELETE')
                             <button type="submit" class="btn btn-danger">
                                 삭제
                             </button>

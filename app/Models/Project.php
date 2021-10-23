@@ -15,4 +15,16 @@ class Project extends Model
      * @var string[]
      */
     protected $guarded = [];
+
+
+    //관계설정
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

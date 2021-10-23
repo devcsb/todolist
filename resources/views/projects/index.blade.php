@@ -10,25 +10,25 @@
         <p>
             <a href="{{ route('projects.create') }}" class="btn btn-success">프로젝트 생성</a>
         </p>
-        @if(Session::has('message'))  // 3
+        @if(session()->has('message'))
         <div class="alert alert-info">
-            {{Session::get('message')}}
+            {{session()->get('message')}}
         </div>
         @endif
 
         <table class="table table-striped">
             <thead>
             <tr>
-                <td>이름</td>
-                <td>Description</td>
+                <td>프로젝트명</td>
+                <td>설명</td>
                 <td>생성일</td>
             </tr>
             </thead>
             <tbody>
-            @foreach ($projects as $project)	// 4
+            @foreach ($projects as $project)
             <tr>
                 <td>
-                    <a href="{{route('projects.show', [$project->id])}}">{{ $proj->name }}</a>	//5
+                    <a href="{{route('projects.show', [$project->id])}}">{{ $project->name }}</a>
                 </td>
                 <td>
                     {{ $project->description }}
@@ -37,10 +37,16 @@
                     {{ $project->created_at }}
                 </td>
                 <td>
-                    <a class="btn btn-success" href="{{ route('projects.edit', $project->id) }}">편집</a>  // 6
+                    <a class="btn btn-success" href="{{ route('projects.edit', $project->id) }}">편집</a>
                 </td>
                 <td>
-                    <a class="btn btn-danger" href="{{ route('projects.destroy', $project->id) }}">삭제</a> //7
+                    <form method="POST" action="{{ route('projects.destroy', $project->id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            삭제
+                        </button>
+                    </form>
                 </td>
             </tr>
             @endforeach
