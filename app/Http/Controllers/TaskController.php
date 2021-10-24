@@ -66,12 +66,13 @@ class TaskController extends Controller
      */
     public function show($projectId, $taskId)
     {
+        $project = Project::findOrFail($projectId);
         $task = Task::find($taskId);
         if ($task === null) {
             abort(404, $taskId . '번 프로젝트를 찾을 수가 없습니다.'); // message 설정 위하여 이같은 방식 사용.
         }
 
-        return view('projects.tasks.show', compact('task'));
+        return view('projects.tasks.show', compact('project', 'task'));
     }
 
     /**

@@ -28,46 +28,26 @@
         <div class="form-group">
             <label>우선순위</label>
             <div>
-                <select class="form-control" name="priority">	//2
-                    @foreach(['낮음' ,'보통', '높음'] as $p)
-                        <option value="{{$p}}" {{ ($task->priority === $p) ? "selected" : "" }}>{{$p}}</option>
-                    @endforeach
-                </select>
+                <input type="text" class="form-control" name="priority" value="{{ $task->priority }}" readonly="true">
+
             </div>
         </div>
         <div class="form-group">
             <label>상태</label>
             <div>
-                <select class="form-control" name="status">	//3
-                    @foreach(['등록', '진행', '완료'] as $s)
-                        <option value="{{$s}}" {{ ($task->status === $s) ? "selected" : "" }}>{{$s}}</option>
-                    @endforeach
-                </select>
+                <input type="text" class="form-control" name="status" value="{{ $task->status }}" readonly="true">
             </div>
         </div>
         <div class="form-group">
             <label for="기한">기한</label>
-            <div class='input-group date' id='due_date'>
-                <input type='text' class="form-control" value=""/>
-                <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-            </div>
-            <script type="text/javascript">
-                $(function () {
-                    $('#due_date').datetimepicker({		//4
-                        locale: 'en',
-                        defaultDate: '{{ \Carbon\Carbon::now() }}',
-                        format: 'YYYY-MM-DD HH:mm:ss'
-                    });
-                });
-            </script>
+
+            <input type="text" class="form-control" name="status" value="{{ $task->due_date }}" readonly="true">
         </div>
         <div class="form-group">
-        <p>
-{{--            <a href="{{ route('projects.tasks.index', ['project'=> $task->id]) }}" class="btn btn-info">목록 보기</a>--}}
-        </p>
+            <p>
+                            <a href="{{ route('projects.tasks.index', ['project'=> $project->id ]) }}" class="btn btn-info">할일 목록</a>
+            </p>
 
 
-    </div>
+        </div>
 @endsection
