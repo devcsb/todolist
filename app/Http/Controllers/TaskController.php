@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTaskRequest;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -40,11 +41,13 @@ class TaskController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $projectId)
+    public function store(StoreTaskRequest $request, $projectId)
     {
+        $validated = $request->validated();
+
         $task = new Task([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
+            'name' => $validated['name'],
+            'description' => $validated['description'],
             'priority' => $request->get('priority'),
             'status' => $request->get('status'),
             'due_date' => $request->get('due_date'),
