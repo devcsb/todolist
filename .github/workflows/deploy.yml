@@ -50,7 +50,7 @@ jobs:
             sudo cp -r . /deploy
             sudo cp -r .ebextensions deploy/.ebextensions
             sudo cp -r .platform deploy/.platform
-            cd deploy && sudo zip -r deploy.zip .
+            sudo cd deploy && sudo zip -r deploy.zip .
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v20 # (2) Beanstalk 플러그인을 사용하는 코드.
