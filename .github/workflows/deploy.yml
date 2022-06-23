@@ -27,6 +27,9 @@ jobs:
       - name: Copy .env
         run: cp .env.production .env
 
+      - name: Cache Clear
+        run: php artisan cache:clear
+
       - name: Install Dependencies
         run: composer install
 
