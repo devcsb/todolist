@@ -5,6 +5,7 @@ on:
       - master # (1) Github Action의 트리거 브랜치를 지정
 
 jobs:
+
   laravel-build:
     runs-on: ubuntu-latest
     steps:
@@ -18,6 +19,7 @@ jobs:
 
       - name: Install NPM dependencies
         run: npm install
+
 
 #      - name: Compile assets for production
 #        run: npm run production
