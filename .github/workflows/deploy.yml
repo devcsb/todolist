@@ -1,70 +1,59 @@
-name: todo-laravel
-
+name: laravel app Build and Deploy
 on:
   push:
     branches:
       - master # (1) Github Action의 트리거 브랜치를 지정
-  workflow_dispatch: # (2) 브랜치 push 이벤트외에, 수동으로 실행하는 것도 가능하게 만드는 옵션. (생략)
 
 jobs:
-  laravel-tests:
-
+  laravel-build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      - name: Generate key
-        run: php artisan key:generate
-      - name: Directory Permissions
-        run: chmod -R 777 storage bootstrap/cache
-      - name: Create Database
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
-        run: vendor/bin/phpunit
+      - uses: actions/checkout@v3 #defalut branch로 checkout
 
-
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v2-beta
         with:
           node-version: '12'
           check-latest: true
+
       - name: Install NPM dependencies
         run: npm install
-      - name: Compile assets for production
-        run: npm run production
 
-#  deploy:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: Deployment
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.SSH_HOST }}
-#          key: ${{ secrets.SSH_PRIVATE_KEY }}
-#          username: ${{ secrets.SSH_USERNAME }}
-#          script: |
-#            cd /var/www/html/
-#            git checkout -f
-#            git pull origin master
+#      - name: Compile assets for production
+#        run: npm run production
 
+      - name: Copy .env
+        run: cp .env.production .env
 
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Create Database
+        run: |
+          mkdir -p database
+
+      - name: Generate deployment package
+        run: |
+            mkdir -p deploy
+            cp -r /deploy
+            cp Procfile deploy/Procfile
+            cp -r .ebextensions deploy/.ebextensions
+            cp -r .platform deploy/.platform
+            cd deploy && zip -r deploy.zip .
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v20 # (2) Beanstalk 플러그인을 사용하는 코드.
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}  # 미리 생성해둔 IAM 인증키를 사용합니다.
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: laravel-test
+          environment_name: Laraveltest-env
+          version_label: github-action-${{steps.current-time.outputs.formattedTime}}
+          region: ap-northeast-2
+          deployment_package: deploy/deploy.zip
