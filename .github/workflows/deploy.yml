@@ -55,6 +55,13 @@ jobs:
             sudo cp -r .platform deploy/.platform
             cd deploy && sudo zip -r deploy.zip .
 
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss # (1)
+          utcOffset: "+09:00"
+
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v20 # (2) Beanstalk 플러그인을 사용하는 코드.
         with:
