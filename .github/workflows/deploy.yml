@@ -33,6 +33,7 @@ jobs:
 
       - name: Add Debugbar
         run: composer require barryvdh/laravel-debugbar --dev
+
       - name: Generate key
         run: php artisan key:generate
 
