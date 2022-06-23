@@ -45,7 +45,7 @@ jobs:
 
       - name: Generate deployment package
         run: |
-            chmod -R 777 .
+            sudo chmod -R 777 .
             sudo mkdir -p deploy
             sudo cp -r . /deploy
             sudo cp -r .ebextensions deploy/.ebextensions
