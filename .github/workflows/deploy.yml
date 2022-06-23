@@ -46,10 +46,10 @@ jobs:
       - name: Generate deployment package
         run: |
             chmod -R 777 .
-            mkdir -p deploy
-            cp -r . /deploy
-            cp -r .ebextensions deploy/.ebextensions
-            cp -r .platform deploy/.platform
+            sudo mkdir -p deploy
+            sudo cp -r . /deploy
+            sudo cp -r .ebextensions deploy/.ebextensions
+            sudo cp -r .platform deploy/.platform
             cd deploy && zip -r deploy.zip .
 
       - name: Deploy to EB
